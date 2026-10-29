@@ -1,0 +1,192 @@
+Compose can now delegate builds to bake for better performance.
+ To do so, set COMPOSE_BAKE=true.
+#0 building with "default" instance using docker driver
+
+#1 [consumer internal] load build definition from Dockerfile
+#1 transferring dockerfile: 399B done
+#1 DONE 0.0s
+
+#2 [consumer internal] load metadata for docker.io/library/gradle:8.14.3-jdk21
+#2 DONE 0.5s
+
+#3 [consumer internal] load metadata for docker.io/library/eclipse-temurin:21-jre
+#3 DONE 0.5s
+
+#4 [consumer internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [consumer build 1/6] FROM docker.io/library/gradle:8.14.3-jdk21@sha256:21bd311ed01360c189b8870c6b6e988199ff10f72d445d02fb39d3cff9da91d7
+#5 DONE 0.0s
+
+#6 [consumer stage-1 1/3] FROM docker.io/library/eclipse-temurin:21-jre@sha256:227118764cccd3c3294617061aaa93a08309c63a395eefa83e6b35032992ea99
+#6 DONE 0.0s
+
+#7 [consumer internal] load build context
+#7 transferring context: 1.26kB done
+#7 DONE 0.0s
+
+#8 [consumer build 5/6] COPY src ./src
+#8 CACHED
+
+#9 [consumer build 4/6] RUN gradle dependencies --no-daemon -q > /dev/null
+#9 CACHED
+
+#10 [consumer build 2/6] WORKDIR /src
+#10 CACHED
+
+#11 [consumer build 6/6] RUN gradle bootJar --no-daemon -q
+#11 CACHED
+
+#12 [consumer build 3/6] COPY settings.gradle.kts build.gradle.kts ./
+#12 CACHED
+
+#13 [consumer stage-1 2/3] WORKDIR /app
+#13 CACHED
+
+#14 [consumer stage-1 3/3] COPY --from=build /src/build/libs/app.jar /app/app.jar
+#14 CACHED
+
+#15 [consumer] exporting to image
+#15 exporting layers done
+#15 writing image sha256:c99b2e15abbd3aefdb950d576938a2671efba4d69a2bd6d90ab5d2cd3640594b done
+#15 naming to docker.io/library/sensor-benchmark:latest done
+#15 DONE 0.0s
+
+#16 [consumer] resolving provenance for metadata file
+#16 DONE 0.0s
+ consumer  Built
+==> [baseline] Resetting environment
+ Network benchmark_default  Creating
+ Network benchmark_default  Created
+ Container benchmark-kafka-1  Creating
+ Container benchmark-postgres-1  Creating
+ Container benchmark-kafka-1  Created
+ Container benchmark-postgres-1  Created
+ Container benchmark-postgres-1  Starting
+ Container benchmark-kafka-1  Starting
+ Container benchmark-kafka-1  Started
+ Container benchmark-postgres-1  Started
+ Container benchmark-kafka-1  Waiting
+ Container benchmark-postgres-1  Waiting
+ Container benchmark-postgres-1  Healthy
+ Container benchmark-kafka-1  Healthy
+==> [baseline] Creating topic with 3 partitions
+==> [baseline] Producing 2000000 messages for 600000 sensors
+ Container benchmark-kafka-1  Running
+ Container benchmark-postgres-1  Running
+Seeded 600000 sensors (29821 decommissioned)
+Produced 250000/2000000 messages
+Produced 500000/2000000 messages
+Produced 750000/2000000 messages
+Produced 1000000/2000000 messages
+Produced 1250000/2000000 messages
+Produced 1500000/2000000 messages
+Produced 1750000/2000000 messages
+Produced 2000000/2000000 messages
+Produced 2000000 messages in 1372 ms
+==> [baseline] Starting consumer (timeout 900s)
+ Container benchmark-postgres-1  Running
+ Container benchmark-kafka-1  Running
+ Container benchmark-consumer-1  Creating
+ Container benchmark-consumer-1  Created
+ Container benchmark-kafka-1  Waiting
+ Container benchmark-postgres-1  Waiting
+ Container benchmark-kafka-1  Healthy
+ Container benchmark-postgres-1  Healthy
+ Container benchmark-consumer-1  Starting
+ Container benchmark-consumer-1  Started
+    messages=9644 durationMs=4660 throughput=2069
+    messages=102943 durationMs=14660 throughput=7022
+    messages=200817 durationMs=24660 throughput=8143
+    messages=294289 durationMs=34660 throughput=8490
+    messages=382566 durationMs=44660 throughput=8566
+    messages=481277 durationMs=54660 throughput=8804
+    messages=573666 durationMs=64660 throughput=8872
+    messages=671832 durationMs=74660 throughput=8998
+    messages=770184 durationMs=84660 throughput=9097
+    messages=903773 durationMs=99661 throughput=9068
+    messages=970912 durationMs=109660 throughput=8853
+    messages=1052260 durationMs=119661 throughput=8793
+    messages=1137427 durationMs=129660 throughput=8772
+    messages=1220145 durationMs=139660 throughput=8736
+    messages=1313770 durationMs=149660 throughput=8778
+    messages=1397663 durationMs=159660 throughput=8753
+    messages=1468530 durationMs=169660 throughput=8655
+    messages=1532616 durationMs=179660 throughput=8530
+    messages=1619405 durationMs=189660 throughput=8538
+    messages=1711958 durationMs=199660 throughput=8574
+    messages=1804895 durationMs=209660 throughput=8608
+    messages=1896210 durationMs=219660 throughput=8632
+    messages=1979863 durationMs=229660 throughput=8620
+scenario=baseline
+status=completed
+partitions=3
+messages=2000000
+duration_ms=232656
+throughput=8596
+db_commits=2000179
+rows_updated=1900629
+mismatches=0
+==> [optimized] Resetting environment
+ Network benchmark_default  Creating
+ Network benchmark_default  Created
+ Container benchmark-postgres-1  Creating
+ Container benchmark-kafka-1  Creating
+ Container benchmark-kafka-1  Created
+ Container benchmark-postgres-1  Created
+ Container benchmark-postgres-1  Starting
+ Container benchmark-kafka-1  Starting
+ Container benchmark-postgres-1  Started
+ Container benchmark-kafka-1  Started
+ Container benchmark-kafka-1  Waiting
+ Container benchmark-postgres-1  Waiting
+ Container benchmark-postgres-1  Healthy
+ Container benchmark-kafka-1  Healthy
+==> [optimized] Creating topic with 6 partitions
+==> [optimized] Producing 2000000 messages for 600000 sensors
+ Container benchmark-postgres-1  Running
+ Container benchmark-kafka-1  Running
+Seeded 600000 sensors (29821 decommissioned)
+Produced 250000/2000000 messages
+Produced 500000/2000000 messages
+Produced 750000/2000000 messages
+Produced 1000000/2000000 messages
+Produced 1250000/2000000 messages
+Produced 1500000/2000000 messages
+Produced 1750000/2000000 messages
+Produced 2000000/2000000 messages
+Produced 2000000 messages in 1335 ms
+==> [optimized] Starting consumer (timeout 900s)
+ Container benchmark-kafka-1  Running
+ Container benchmark-postgres-1  Running
+ Container benchmark-consumer-1  Creating
+ Container benchmark-consumer-1  Created
+ Container benchmark-postgres-1  Waiting
+ Container benchmark-kafka-1  Waiting
+ Container benchmark-kafka-1  Healthy
+ Container benchmark-postgres-1  Healthy
+ Container benchmark-consumer-1  Starting
+ Container benchmark-consumer-1  Started
+scenario=optimized
+status=completed
+partitions=6
+messages=2000000
+duration_ms=7527
+throughput=265710
+db_commits=5157
+rows_updated=377781
+mismatches=0
+
+| Metric         |     baseline |    optimized |
+|----------------|--------------|--------------|
+| status         |    completed |    completed |
+| partitions     |            3 |            6 |
+| messages       |      2000000 |      2000000 |
+| duration_ms    |       232656 |         7527 |
+| throughput     |         8596 |       265710 |
+| db_commits     |      2000179 |         5157 |
+| rows_updated   |      1900629 |       377781 |
+| mismatches     |            0 |            0 |
+
+Speed-up: 30,9x

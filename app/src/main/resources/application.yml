@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: sensor-consumer
+  main:
+    web-application-type: none
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/sensors}
+    username: ${DB_USER:sensors}
+    password: ${DB_PASSWORD:sensors}
+  cloud:
+    function:
+      definition: sensorReadings
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_BOOTSTRAP:kafka:9092}
+          auto-create-topics: false
+        bindings:
+          sensorReadings-in-0:
+            consumer:
+              start-offset: earliest
+      bindings:
+        sensorReadings-in-0:
+          destination: sensor-readings
+          group: sensor-consumer
+          content-type: application/json
+
+benchmark:
+  expected-messages: ${BENCHMARK_EXPECTED_MESSAGES:0}
+
+logging:
+  level:
+    root: WARN
+    com.example.sensors: INFO

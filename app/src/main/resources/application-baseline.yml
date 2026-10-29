@@ -1,0 +1,16 @@
+# No recommendations applied: one record at a time, one transaction and one offset commit per record
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 10
+  cloud:
+    stream:
+      bindings:
+        sensorReadings-in-0:
+          consumer:
+            concurrency: ${CONSUMER_CONCURRENCY:3}
+      kafka:
+        bindings:
+          sensorReadings-in-0:
+            consumer:
+              ack-mode: RECORD

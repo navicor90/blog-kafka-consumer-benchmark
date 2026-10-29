@@ -1,0 +1,25 @@
+# All recommendations applied: more partitions/consumers, batches, bounded parallelism, one transaction per chunk
+spring:
+  datasource:
+    hikari:
+      # concurrency * parallelism, so chunks never wait for a connection
+      maximum-pool-size: 24
+  cloud:
+    stream:
+      bindings:
+        sensorReadings-in-0:
+          consumer:
+            concurrency: ${CONSUMER_CONCURRENCY:6}
+            batch-mode: true
+      kafka:
+        bindings:
+          sensorReadings-in-0:
+            consumer:
+              configuration:
+                max.poll.records: 2000
+                fetch.min.bytes: 65536
+                fetch.max.wait.ms: 100
+
+benchmark:
+  parallelism: 4
+  max-attempts: 3
